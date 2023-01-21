@@ -12,26 +12,26 @@ export const publicProcedure = t.procedure;
 export const appRouter = router({
   greeting: publicProcedure.query(() => 'hello tRPC v10!'),
   hello: publicProcedure
-    .meta({
-      openapi: {
-        summary: 'Say hello',
-        description: 'Say hello to the world',
-        method: 'GET',
-        path: '/api/hello',
-      },
-    })
-    .input(
-      z
-        .object({
-          text: z.string().optional(),
-        })
-        .optional(),
-    )
-    .output(
-      z.string()
-    )
-    .query(({ input }) => {
-      return `Hello ${input?.text ?? 'world'}!`;
-    })
+  .meta({
+    openapi: {
+      method: 'GET',
+      path: '/hello',
+      tags: ['teste'],
+      summary: 'Hello world',
+    },
+  })
+  .input(
+    z.object({
+      name: z.string().optional(),
+    }).optional(),
+  )
+  .output(
+    z.object({
+      message: z.string(),
+    }),
+  )
+  .query(({ input }) => {
+    return { message: `Hello ${input?.name ?? 'world'}` };
+  }),
 })
 

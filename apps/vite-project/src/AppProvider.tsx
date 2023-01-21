@@ -3,11 +3,7 @@ import { trpc } from "./lib/trpc"
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 
-import reactLogo from './assets/react.svg'
-import './App.css'
-
 const client = new QueryClient();
-
 
 export function Provider({ children }: PropsWithChildren) {
   const [trpcClient] = useState(() =>

@@ -19,7 +19,7 @@ app.use("/api", createExpressMiddleware({
     router: appRouter,
 }))
 
-app.use("/openapi.json", createOpenApiExpressMiddleware({
+app.use("/api/docs", createOpenApiExpressMiddleware({
     router: appRouter,
 }))
 

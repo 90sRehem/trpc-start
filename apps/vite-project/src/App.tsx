@@ -6,7 +6,7 @@ import { trpc } from './lib/trpc'
 
 function App() {
   const [count, setCount] = useState(0)
-  const hello = trpc.hello.useQuery({ text: "jonathan" })
+  const hello = trpc.hello.useQuery({ name: 'jonathan'})
 
   return (
     <>
@@ -32,7 +32,7 @@ function App() {
         <p className="read-the-docs">
           Click on the Vite and React logos to learn more
         </p>
-        {hello.isLoading ? <div>Loading...</div> : <div>{hello.data}</div>}
+        {hello.isLoading ? <div>Loading...</div> : <div>{hello.data?.message}</div>}
       </div>
     </>
   )
