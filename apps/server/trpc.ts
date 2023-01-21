@@ -1,61 +1,37 @@
-import { inferAsyncReturnType, initTRPC } from '@trpc/server';
+import { initTRPC } from '@trpc/server';
+import { OpenApiMeta } from 'trpc-openapi';
 import { z } from 'zod';
-import * as trpcExpress from '@trpc/server/adapters/express';
 
-const t = initTRPC.create();
+// You can use any variable name you like.
+// We use t to keep things simple.
+const t = initTRPC.meta<OpenApiMeta>().create();
 
-const router = t.router;
-const publicProcedure = t.procedure;
-
-interface User {
-  id: string;
-  name: string;
-}
-
-const userList: User[] = [
-  {
-    id: '1',
-    name: 'KATT',
-  },
-];
-
+export const router = t.router;
+export const middleware = t.middleware;
+export const publicProcedure = t.procedure;
 export const appRouter = router({
-  userById: publicProcedure
-    .input((val: unknown) => {
-      if (typeof val === 'string') return val;
-      throw new Error(`Invalid input: ${typeof val}`);
+  greeting: publicProcedure.query(() => 'hello tRPC v10!'),
+  hello: publicProcedure
+    .meta({
+      openapi: {
+        summary: 'Say hello',
+        description: 'Say hello to the world',
+        method: 'GET',
+        path: '/api/hello',
+      },
     })
-    .query((req) => {
-      const input = req.input;
-      const user = userList.find((it) => it.id === input);
+    .input(
+      z
+        .object({
+          text: z.string().optional(),
+        })
+        .optional(),
+    )
+    .output(
+      z.string()
+    )
+    .query(({ input }) => {
+      return `Hello ${input?.text ?? 'world'}!`;
+    })
+})
 
-      return user;
-    }),
-  userCreate: publicProcedure
-    .input(z.object({ name: z.string() }))
-    .mutation((req) => {
-      const id = `${Math.random()}`;
-
-      const user: User = {
-        id,
-        name: req.input.name,
-      };
-
-      userList.push(user);
-
-      return user;
-    }),
-});
-
-const createContext = ({
-    req,
-    res,
-  }: trpcExpress.CreateExpressContextOptions) => ({}); // no context
-  type Context = inferAsyncReturnType<typeof createContext>;
-
-export const trpcExpressAdapter = trpcExpress.createExpressMiddleware({
-    router: appRouter,
-    createContext,
-  })
-
-export type AppRouter = typeof appRouter;
