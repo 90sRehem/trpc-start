@@ -1,7 +1,7 @@
-import { z } from "zod";
-import { createRouter, publicProcedure } from "./router.config";
 import { database } from "@/database";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import { createRouter, publicProcedure } from "../trpc";
 
 export const usersRouter = createRouter({
     getUsers: publicProcedure
