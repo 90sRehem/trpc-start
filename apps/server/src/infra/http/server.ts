@@ -14,12 +14,12 @@ app.use(cors())
 
 app.use("/api/trpc", createExpressMiddleware({
     router: appRouter,
-    createContext,
+    createContext
 }))
 
 app.use("/api", createOpenApiExpressMiddleware({
     router: appRouter,
-    createContext,
+    createContext
 }))
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(openApiDocument));
