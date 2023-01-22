@@ -11,11 +11,11 @@ const port = 8080;
 
 app.use(cors())
 
-app.use("/api", createExpressMiddleware({
+app.use("/api/trpc", createExpressMiddleware({
     router: appRouter,
 }))
 
-app.use("/api/docs", createOpenApiExpressMiddleware({
+app.use("/api", createOpenApiExpressMiddleware({
     router: appRouter,
 }))
 
