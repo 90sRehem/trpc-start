@@ -6,7 +6,7 @@ import { trpc } from './lib/trpc'
 
 function App() {
   const [count, setCount] = useState(0)
-  const hello = trpc.hello.useQuery({ name: 'jonathan'})
+  const hello = trpc.greeting.hello.useQuery({ name: 'jonathan'})
 
   return (
     <>
