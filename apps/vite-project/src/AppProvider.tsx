@@ -10,7 +10,7 @@ export function Provider({ children }: PropsWithChildren) {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: 'http://localhost:8080/api',
+          url: 'http://localhost:8080/api/trpc',
         }),
       ],
     }),
